@@ -1,0 +1,6 @@
+{
+  "javascript.suggest.enabled": false,
+  "typescript.suggest.enabled": false,
+  "tailwindCSS.suggestions": false,
+  "terminal.integrated.suggest.enabled": false
+}
