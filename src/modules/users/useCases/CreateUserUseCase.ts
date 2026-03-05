@@ -1,7 +1,7 @@
-import type { CreateUserDTO } from "../dtos/CreateuserDTO";
+import type { ICreateUserDTO } from "../dtos/ICreateUserDTO";
 
 export class CreateUserUseCase {
-  async execute(data: CreateUserDTO) {
+  async execute(data: ICreateUserDTO) {
     console.log("data");
     console.log(data);
   }
