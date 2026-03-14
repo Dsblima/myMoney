@@ -10,7 +10,7 @@ export class CreateUserController {
     console.log("name, email, password", name, email, password);
 
     const createUserUseCase = container.resolve(CreateUserUseCase);
-    await createUserUseCase.execute({name, email, password});
-    return res.status(201).json({ message: "User created successfully." });
+    const createdUser = await createUserUseCase.execute({name, email, password});
+    return res.status(201).json(createdUser);
   }
 }
