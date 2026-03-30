@@ -20,7 +20,7 @@ export class CreateUserUseCase {
     try{
       const validatedData: ICreateUserDTO = userSchema.parse(data);
       console.log("validatedData", validatedData);
-      await this.usersRepository.create(validatedData);
+     return await this.usersRepository.create(validatedData);
     } catch (error){
       if (error instanceof z.ZodError) {
         const mensagens = error.issues.map(err => err.message);
@@ -28,7 +28,7 @@ export class CreateUserUseCase {
       } else {
         console.error("An unexpected error occurred:", error);
       }
-    }
+    } 
     // const validatedData = userSchema.safeParse(data);
     // if (validatedData.success) {
 
