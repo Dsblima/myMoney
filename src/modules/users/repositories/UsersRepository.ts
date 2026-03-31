@@ -1,5 +1,6 @@
 import { prisma } from "../../../shared/infra/prisma/prisma";
 import { ICreateUserDTO } from "../dtos/ICreateUserDTO";
+import { IUpdateUserDTO } from "../dtos/IUpdateUserDTO";
 import { User } from "../User";
 import { IUserRepository } from "./interfaces/IUserRepository";
 export class UsersRepository implements IUserRepository {
@@ -20,7 +21,17 @@ export class UsersRepository implements IUserRepository {
     console.log("userPrism2", userPrism)
     return createdUser;
   }
+  async update(userToUpdate: IUpdateUserDTO): Promise<User> {
+    const updateUser = await prisma.user.update({
+      where: {id: userToUpdate.id},
+      data: {
+        name: userToUpdate.name,
+        email: userToUpdate.email
+      }
+    });
 
+    return updateUser;
+  }
   async listUsers(): Promise<User[]> {
     return await prisma.user.findMany();
   }
