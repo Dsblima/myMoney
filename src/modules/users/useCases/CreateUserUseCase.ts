@@ -1,3 +1,4 @@
+import { compare, hash } from 'bcryptjs';
 import { inject, injectable } from "tsyringe";
 import { z } from "zod";
 import type { ICreateUserDTO } from "../dtos/ICreateUserDTO";
@@ -19,6 +20,10 @@ export class CreateUserUseCase {
     });
     try{
       const validatedData: ICreateUserDTO = userSchema.parse(data);
+      const passwordHash = await hash(validatedData.password, 8);
+     
+      validatedData.password = passwordHash;
+
       console.log("validatedData", validatedData);
      return await this.usersRepository.create(validatedData);
     } catch (error){

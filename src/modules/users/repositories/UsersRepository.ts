@@ -36,9 +36,20 @@ export class UsersRepository implements IUserRepository {
     return await prisma.user.findMany();
   }
 
-  async findById(userId: string): Promise<User> {
+  async findById(userId: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {id: userId}
+    });
+
+    if (!user) {
+      throw new Error(`User with id ${userId} not found`);
+    }
+
+    return user;
+  }
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: {email: email}
     });
 
     return user;
@@ -50,6 +61,5 @@ export class UsersRepository implements IUserRepository {
     
     console.log("deletedUser");
     console.log(deletedUser);
-    return deletedUser;
   }
 }
