@@ -3,6 +3,7 @@ import { CreateUserController } from "../../../../modules/users/controllers/Crea
 import { DeleteUserController } from "../../../../modules/users/controllers/DeleteUserController";
 import { ListUserController } from "../../../../modules/users/controllers/ListUserController";
 import { UpdateUserController } from "../../../../modules/users/controllers/UpdateUseController";
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const userRouters = Router();
 
@@ -14,7 +15,7 @@ const updateUserController = new UpdateUserController()
 userRouters.get("/", listUserController.handle);
 userRouters.post("/", createUserController.handle);
 userRouters.put("/:id", updateUserController.handle);
-userRouters.delete("/:id", deleteUserController.handle);
+userRouters.delete("/:id",ensureAuthenticated, deleteUserController.handle);
 
 export { userRouters };
 

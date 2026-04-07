@@ -42,7 +42,7 @@ export class AuthenticateUserUseCase {
       subject: String(user.id),
       expiresIn: authConfig.expires_in_refresh_token_days,
     }
-    const refresh_token = sign({email}, authConfig.secret_token, options);
+    const refresh_token = sign({}, authConfig.secret_token, options);
     
     await this.userTokenRepository.create({
       userId: user.id,
