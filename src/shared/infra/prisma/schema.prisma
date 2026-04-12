@@ -13,20 +13,81 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  name       String
-  email      String      @unique
-  password   String
-  createdAt  DateTime    @default(now())
-  isAdmin    Boolean     @default(false)
-  userTokens UserToken[]
+  id                   String      @id @default(uuid())
+  name                 String
+  email                String      @unique
+  password             String
+  createdAt            DateTime    @default(now())
+  isAdmin              Boolean     @default(false)
+  userTokens           UserToken[]
+  sentTransactions     Debt[]      @relation("Debtor")
+  receivedTransactions Debt[]      @relation("Creditor")
 }
 
 model UserToken {
   id            String   @id @default(uuid())
   user          User     @relation(fields: [userId], references: [id])
   userId        String
-  refresh_token String   @unique
+  refresh_token String
   expires_date  DateTime
   createdAt     DateTime @default(now())
+
+  @@index([refresh_token])
+}
+
+model Debt {
+  id           String        @id @default(uuid())
+  debtorId     String
+  creditorId   String
+  totalAmount  Int
+  debtStatus   DebtStatus    @default(OPEN)
+  debtor       User          @relation("Debtor", fields: [debtorId], references: [id])
+  creditor     User          @relation("Creditor", fields: [creditorId], references: [id])
+  installments Installment[]
+  transactions Transaction[]
+}
+
+model Installment {
+  id               String        @id @default(uuid())
+  debt             Debt          @relation(fields: [debitId], references: [id])
+  debitId          String
+  baseAmount       Int
+  dueDate          DateTime
+  status           Status        @default(PENDING)
+  lateInterestRate Decimal       @db.Decimal(5, 4)
+  finePercent      Decimal       @db.Decimal(5, 4)
+  paidAt           DateTime?
+  totalPaid        Int
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  transactions     Transaction[]
+}
+
+model Transaction {
+  id            String          @id @default(uuid())
+  debt          Debt            @relation(fields: [debitId], references: [id])
+  installment   Installment     @relation(fields: [installmentId], references: [id])
+  debitId       String
+  installmentId String
+  type          TransactionType
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+enum Status {
+  PENDING
+  PAID
+  LATE
+}
+
+enum DebtStatus {
+  OPEN
+  PAID
+  OVERDUE
+}
+
+enum TransactionType {
+  PAYMENT
+  REFUND
+  ADJUSTMENT
 }
