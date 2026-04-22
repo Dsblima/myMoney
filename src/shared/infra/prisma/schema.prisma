@@ -49,8 +49,8 @@ model Debt {
 
 model Installment {
   id               String        @id @default(uuid())
-  debt             Debt          @relation(fields: [debitId], references: [id])
-  debitId          String
+  debt             Debt          @relation(fields: [debtId], references: [id])
+  debtId           String
   baseAmount       Int
   dueDate          DateTime
   status           Status        @default(PENDING)
@@ -65,9 +65,9 @@ model Installment {
 
 model Transaction {
   id            String          @id @default(uuid())
-  debt          Debt            @relation(fields: [debitId], references: [id])
+  debt          Debt            @relation(fields: [debtId], references: [id])
   installment   Installment     @relation(fields: [installmentId], references: [id])
-  debitId       String
+  debtId       String
   installmentId String
   type          TransactionType
   createdAt     DateTime        @default(now())
