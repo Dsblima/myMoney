@@ -1,5 +1,5 @@
 export interface ICreateInstallmentDTO {
-  debitId: string;
+  debtId: string;
   baseAmount: number;
   lateInterestRate: number;
   finePercent: number;

@@ -1,12 +1,13 @@
 import { Status } from "@prisma/client";
 
 export type Installment = {
-  debitId: string;
+  id: string;
+  debtId: string;
   baseAmount: number;
   lateInterestRate: number;
   finePercent: number;
   totalPaid: number;
-  paidAt: Date;
+  paidAt?: Date;
   dueDate: Date;
   status: Status;
 }

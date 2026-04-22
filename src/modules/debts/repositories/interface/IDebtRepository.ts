@@ -6,5 +6,5 @@ import { IUpdateDebtDTO } from "../../dtos/IUpdateDebtDTO";
 
 export interface IDebtRepository {
   create(debtToCreate: ICreateDebtDTO): Promise<Debt>;
-  update(debtToUpdate: IUpdateDebtDTO): Promise<Debt>;
+  //update(debtToUpdate: IUpdateDebtDTO): Promise<Debt>;
 }
