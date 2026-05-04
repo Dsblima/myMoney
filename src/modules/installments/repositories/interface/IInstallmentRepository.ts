@@ -4,5 +4,6 @@ import { Installment } from "../../Installment";
 
 export interface IInstallmentRepository {
   create(installmentToCreate: ICreateInstallmentDTO): Promise<Installment>;
+  findById(id: string): Promise<Installment | null>;
   update(installmentToUpdate: IUpdateInstallmentDTO): Promise<Installment>;
 }

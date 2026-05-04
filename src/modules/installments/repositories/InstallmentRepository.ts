@@ -14,6 +14,18 @@ export class InstallmentRepository implements IInstallmentRepository {
     return InstallmentMapper.toDomain(installmentCreated);
   }
 
+  async findById(id: string): Promise<Installment | null> {
+    const installment = await prisma.installment.findUnique({
+      where: { id },
+    });
+
+    if (!installment) {
+      return null;
+    }
+
+    return InstallmentMapper.toDomain(installment);
+  }
+
   async update(installmentToUpdate: IUpdateInstallmentDTO): Promise<Installment> {
     const installmentUpdated = await prisma.installment.update({
       where: { id: installmentToUpdate.id },

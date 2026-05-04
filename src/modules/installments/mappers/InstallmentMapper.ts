@@ -37,9 +37,23 @@ export class InstallmentMapper {
 
   static toPrismaUpdate({
     totalPaid,
+    status,
+    paidAt,
   }: IUpdateInstallmentDTO): Prisma.InstallmentUncheckedUpdateInput {
-    return {
-      totalPaid,
-    };
+    const data: Prisma.InstallmentUncheckedUpdateInput = {};
+
+    if (totalPaid !== undefined) {
+      data.totalPaid = totalPaid;
+    }
+
+    if (status !== undefined) {
+      data.status = status;
+    }
+
+    if (paidAt !== undefined) {
+      data.paidAt = paidAt;
+    }
+
+    return data;
   }
 }
