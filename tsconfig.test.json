@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/modules/users/User.ts",
+    "src/modules/users/dtos/**/*.ts",
+    "src/modules/users/repositories/interfaces/**/*.ts",
+    "src/modules/users/useCases/**/*.ts",
+    "src/modules/auth/UserToken.ts",
+    "src/modules/auth/config/**/*.ts",
+    "src/modules/auth/dtos/**/*.ts",
+    "src/modules/auth/repositories/interface/**/*.ts",
+    "src/modules/auth/useCases/**/*.ts",
+    "src/modules/debts/Debt.ts",
+    "src/modules/debts/dtos/**/*.ts",
+    "src/modules/debts/repositories/interface/**/*.ts",
+    "src/modules/debts/useCases/**/*.ts",
+    "src/modules/installments/Installment.ts",
+    "src/modules/installments/dtos/**/*.ts",
+    "src/modules/installments/repositories/interface/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist",
+    "types": ["node"],
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false
+  }
+}
