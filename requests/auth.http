@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:3000
+@email = danilo@example.com
+@password = 123456
+
+### Authenticate user
+# @name authenticate
+POST {{baseUrl}}/auth/session
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}

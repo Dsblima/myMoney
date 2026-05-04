@@ -6,6 +6,7 @@
   "scripts": {
     "test": "tsc -p tsconfig.test.json && node --test \"dist/tests/**/*.test.js\"",
     "dev": "ts-node-dev --respawn --transpile-only src/shared/infra/http/server.ts",
+    "seed": "ts-node-dev --transpile-only src/shared/infra/prisma/seed.ts",
     "postinstall": "prisma generate"
   },
   "keywords": [],

@@ -9,6 +9,9 @@ import { ICreateInstallmentDTO } from "../../src/modules/installments/dtos/ICrea
 import { IUpdateInstallmentDTO } from "../../src/modules/installments/dtos/IUpdateInstallmentDTO";
 import { Installment } from "../../src/modules/installments/Installment";
 import { IInstallmentRepository } from "../../src/modules/installments/repositories/interface/IInstallmentRepository";
+import { ICreateTransactionDTO } from "../../src/modules/transactions/dtos/ICreateTransactionDTO";
+import { Transaction } from "../../src/modules/transactions/Transaction";
+import { ITransactionRepository } from "../../src/modules/transactions/repositories/interface/ITransactionRepository";
 import { ICreateUserDTO } from "../../src/modules/users/dtos/ICreateUserDTO";
 import { IUpdateUserDTO } from "../../src/modules/users/dtos/IUpdateUserDTO";
 import { User } from "../../src/modules/users/User";
@@ -155,8 +158,31 @@ export class InMemoryInstallmentRepository implements IInstallmentRepository {
     return createdInstallment;
   }
 
-  async update({ id, totalPaid }: IUpdateInstallmentDTO): Promise<Installment> {
-    this.updatedPayloads.push({ id, totalPaid });
+  async findById(id: string): Promise<Installment | null> {
+    return this.installments.find((installment) => installment.id === id) ?? null;
+  }
+
+  async update({
+    id,
+    totalPaid,
+    status,
+    paidAt,
+  }: IUpdateInstallmentDTO): Promise<Installment> {
+    const updatedPayload: IUpdateInstallmentDTO = { id };
+
+    if (totalPaid !== undefined) {
+      updatedPayload.totalPaid = totalPaid;
+    }
+
+    if (status !== undefined) {
+      updatedPayload.status = status;
+    }
+
+    if (paidAt !== undefined) {
+      updatedPayload.paidAt = paidAt;
+    }
+
+    this.updatedPayloads.push(updatedPayload);
 
     const installmentIndex = this.installments.findIndex(
       (installment) => installment.id === id,
@@ -173,16 +199,38 @@ export class InMemoryInstallmentRepository implements IInstallmentRepository {
       baseAmount: currentInstallment.baseAmount,
       lateInterestRate: currentInstallment.lateInterestRate,
       finePercent: currentInstallment.finePercent,
-      totalPaid,
+      totalPaid: totalPaid ?? currentInstallment.totalPaid,
       dueDate: currentInstallment.dueDate,
-      status: currentInstallment.status,
-      ...(currentInstallment.paidAt
-        ? { paidAt: currentInstallment.paidAt }
-        : {}),
+      status: status ?? currentInstallment.status,
+      ...(paidAt
+        ? { paidAt }
+        : currentInstallment.paidAt
+          ? { paidAt: currentInstallment.paidAt }
+          : {}),
     };
 
     this.installments[installmentIndex] = updatedInstallment;
 
     return updatedInstallment;
+  }
+}
+
+export class InMemoryTransactionRepository implements ITransactionRepository {
+  transactions: Transaction[] = [];
+  createdPayloads: ICreateTransactionDTO[] = [];
+
+  async create(transactionToCreate: ICreateTransactionDTO): Promise<Transaction> {
+    this.createdPayloads.push({ ...transactionToCreate });
+
+    const createdTransaction: Transaction = {
+      id: `transaction-${this.transactions.length + 1}`,
+      ...transactionToCreate,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    this.transactions.push(createdTransaction);
+
+    return createdTransaction;
   }
 }

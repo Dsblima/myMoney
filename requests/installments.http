@@ -1,0 +1,42 @@
+@baseUrl = http://localhost:3000
+@installmentId = replace-with-installment-id
+@paymentAmount = 300
+@paidAt = 2026-05-04T10:00:00.000Z
+
+### Pay installment
+# @name payInstallment
+PATCH {{baseUrl}}/installments/{{installmentId}}/pay
+Content-Type: application/json
+
+{
+  "amount": {{paymentAmount}},
+  "paidAt": "{{paidAt}}"
+}
+
+### Pay installment without explicit paidAt
+# @name payInstallmentWithoutPaidAt
+PATCH {{baseUrl}}/installments/{{installmentId}}/pay
+Content-Type: application/json
+
+{
+  "amount": {{paymentAmount}}
+}
+
+### Reject invalid payment amount
+# @name rejectInvalidPaymentAmount
+PATCH {{baseUrl}}/installments/{{installmentId}}/pay
+Content-Type: application/json
+
+{
+  "amount": 0
+}
+
+### Reject missing installment
+# @name rejectMissingInstallment
+PATCH {{baseUrl}}/installments/missing-installment-id/pay
+Content-Type: application/json
+
+{
+  "amount": {{paymentAmount}},
+  "paidAt": "{{paidAt}}"
+}

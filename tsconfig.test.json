@@ -17,6 +17,10 @@
     "src/modules/installments/Installment.ts",
     "src/modules/installments/dtos/**/*.ts",
     "src/modules/installments/repositories/interface/**/*.ts",
+    "src/modules/installments/useCases/**/*.ts",
+    "src/modules/transactions/Transaction.ts",
+    "src/modules/transactions/dtos/**/*.ts",
+    "src/modules/transactions/repositories/interface/**/*.ts",
     "tests/**/*.ts"
   ],
   "compilerOptions": {

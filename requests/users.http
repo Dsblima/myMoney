@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:3000
+@userId = replace-with-user-id
+@email = danilo@example.com
+@password = 123456
+@token = replace-with-auth-token
+
+### Create user
+# @name createUser
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Danilo Lima",
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### List users
+# @name listUsers
+GET {{baseUrl}}/users
+
+### Update user
+# @name updateUser
+PUT {{baseUrl}}/users/{{userId}}
+Content-Type: application/json
+
+{
+  "name": "Danilo Silva",
+  "email": "danilo.silva@example.com"
+}
+
+### Delete user
+# @name deleteUser
+DELETE {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{token}}

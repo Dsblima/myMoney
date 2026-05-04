@@ -1,0 +1,26 @@
+@baseUrl = http://localhost:3000
+@debtorId = replace-with-debtor-user-id
+@creditorId = replace-with-creditor-user-id
+
+### Create debt without installments
+# @name createDebtWithoutInstallments
+POST {{baseUrl}}/debts
+Content-Type: application/json
+
+{
+  "debtorId": "{{debtorId}}",
+  "creditorId": "{{creditorId}}",
+  "totalAmount": 900
+}
+
+### Create debt with installments
+# @name createDebtWithInstallments
+POST {{baseUrl}}/debts
+Content-Type: application/json
+
+{
+  "debtorId": "{{debtorId}}",
+  "creditorId": "{{creditorId}}",
+  "totalAmount": 900,
+  "installments": 3
+}
